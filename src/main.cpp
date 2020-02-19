@@ -23,10 +23,13 @@ const int on_time = 20; // determines brightness, between 10-100
 const int scan_lines = 16;
 
 int remaining_time_s = 0;
-int initial_time_s = 6 * 60;
 
 bool draw_colon = true;
+bool draw_time = true;
 const bool flash_colon = false;
+
+int initial_time = 9 * 60;
+
 // ISR for display refresh
 void display_updater()
 {
@@ -41,7 +44,7 @@ void setup()
     display_ticker.attach(0.002, display_updater);
     yield();
     delay(500);
-    remaining_time_s = initial_time_s;
+    remaining_time_s = initial_time;
 }
 
 
@@ -79,16 +82,17 @@ void loop()
     int minutes, seconds;
     secondsToMinutesAndSeconds(remaining_time_s, minutes, seconds);
     uint8_t interp_color[3];
-    interp_colors(GREEN, RED, float(remaining_time_s) / float(initial_time_s), interp_color);
-    writeMinutesSeconds(minutes, seconds, to_color565(interp_color));
-
-    if (remaining_time_s > 0)
-    {
+    interp_colors(GREEN, RED, float(remaining_time_s) / float(initial_time), interp_color);
+    if (draw_time) {
+        writeMinutesSeconds(minutes, seconds, to_color565(interp_color));
+    }
+    // Flash the time while in dwell time
+    if (remaining_time_s <= 0) {
+        draw_time = !draw_time;
+    }
+    if (remaining_time_s > 0) {
         remaining_time_s -= 1;
     }
-    else
-    {
-        remaining_time_s = initial_time_s;
-    }
+    
     delay(1000);
 }
