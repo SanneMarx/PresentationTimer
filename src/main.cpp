@@ -3,6 +3,7 @@
 #include <Fonts/FreeSansBold12pt7b.h>
 
 #include "colors.h"
+#include "time_writer.h"
 
 Ticker display_ticker;
 
@@ -16,14 +17,16 @@ Ticker display_ticker;
 #define P_E 0
 
 PxMATRIX display(64, 32, P_LAT, P_OE, P_A, P_B, P_C, P_D);
+TimeWriter time_writer = TimeWriter();
 
 const int on_time = 20; // determines brightness, between 10-100
 const int scan_lines = 16;
 
 int remaining_time_s = 0;
-int initial_time_s = 7 * 60;
+int initial_time_s = 6 * 60;
 
 bool draw_colon = true;
+const bool flash_colon = false;
 // ISR for display refresh
 void display_updater()
 {
@@ -41,17 +44,6 @@ void setup()
     remaining_time_s = initial_time_s;
 }
 
-void printDoubleDigitNumberAt(int num, int x, int y)
-{
-    // The used font has an offset for numbers in the range [10 - 19] of 1 pixel in x direction
-    int x_offset = (20 > num && num >= 10) ? 1 : 0;
-    display.setCursor(x - x_offset, y);
-    if (num < 10)
-    {
-        display.print("0");
-    }
-    display.print(num);
-}
 
 void drawAndUpdateColonAt(int x, int y)
 {
@@ -60,7 +52,9 @@ void drawAndUpdateColonAt(int x, int y)
     {
         display.print(":");
     }
-    draw_colon = !draw_colon;
+    if (flash_colon){
+        draw_colon = !draw_colon;
+    }
 }
 
 void secondsToMinutesAndSeconds(int total_seconds, int &minutes, int &seconds)
@@ -74,9 +68,9 @@ void writeMinutesSeconds(int time_m, int time_s, uint16_t color)
     display.setTextColor(color);
     display.setFont(&FreeSansBold12pt7b);
 
-    printDoubleDigitNumberAt(time_m, 1, 23);
-    drawAndUpdateColonAt(29, 21);
-    printDoubleDigitNumberAt(time_s, 36, 23);
+    time_writer.printDoubleDigitNumberAt(display, time_m, 2, 25);
+    drawAndUpdateColonAt(29, 23);
+    time_writer.printDoubleDigitNumberAt(display, time_s, 35, 25);
 }
 
 void loop()

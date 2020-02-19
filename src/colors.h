@@ -10,8 +10,8 @@ void interp_colors(const uint8_t color_1[3], const uint8_t color_2[3], float rat
     }
 }
 
-uint8_t RED[3] = {255, 0, 0};
-uint8_t GREEN[3] = {0, 255, 0};
+const uint8_t RED[3] = {255, 0, 0};
+const uint8_t GREEN[3] = {0, 255, 0};
 
 /**
 uint16_t RED = to_color565(255, 0, 0);
