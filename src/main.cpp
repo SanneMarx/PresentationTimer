@@ -14,13 +14,27 @@ Ticker display_ticker;
 #define P_C 15
 #define P_OE 2
 #define P_D 12
-#define P_E 0
+#define P_PLAYPAUZE 10
+#define P_RESET 0
 
 PxMATRIX display(64, 32, P_LAT, P_OE, P_A, P_B, P_C, P_D);
 TimeWriter time_writer = TimeWriter();
 
 const int on_time = 20; // determines brightness, between 10-100
 const int scan_lines = 16;
+
+enum CLOCK_STATE {RUNNING, PAUZE};
+CLOCK_STATE clock_state = RUNNING;
+
+bool play_pauze_pressed = false;
+bool play_pauze_pressed_prev = false;
+bool reset_pressed = false;
+bool reset_pressed_prev = false;
+
+unsigned long clock_start_millis = 0;
+int last_display_seconds = 0;
+const int presenter_time_limit_s = 9 * 60;
+const unsigned int speed_mult = 1; // 1 for normal speed, >1 for speeding up the countdown for testing
 
 int remaining_time_s = 0;
 
@@ -35,18 +49,6 @@ void display_updater()
 {
     display.display(on_time);
 }
-
-void setup()
-{
-    Serial.begin(9600);
-    display.begin(scan_lines);
-    display.clearDisplay();
-    display_ticker.attach(0.002, display_updater);
-    yield();
-    delay(500);
-    remaining_time_s = initial_time;
-}
-
 
 void drawAndUpdateColonAt(int x, int y)
 {
@@ -76,23 +78,87 @@ void writeMinutesSeconds(int time_m, int time_s, uint16_t color)
     time_writer.printDoubleDigitNumberAt(display, time_s, 35, 25);
 }
 
-void loop()
-{
+void drawTimeFromSeconds(int input_seconds){
+    Serial.print("drawing time: ");
+    Serial.print(input_seconds);
+    Serial.println("s");
     display.clearDisplay();
     int minutes, seconds;
-    secondsToMinutesAndSeconds(remaining_time_s, minutes, seconds);
+    int display_time = (input_seconds > 0) ? input_seconds : 0;
+    secondsToMinutesAndSeconds(display_time, minutes, seconds);
     uint8_t interp_color[3];
-    interp_colors(GREEN, RED, float(remaining_time_s) / float(initial_time), interp_color);
+    interp_colors(GREEN, RED, float(display_time) / float(initial_time), interp_color);
     if (draw_time) {
         writeMinutesSeconds(minutes, seconds, to_color565(interp_color));
     }
-    // Flash the time while in dwell time
-    if (remaining_time_s <= 0) {
+    // Flash the time on/off when time ran out
+    if (input_seconds <= 0) {
         draw_time = !draw_time;
     }
-    if (remaining_time_s > 0) {
-        remaining_time_s -= 1;
+}
+
+void resetClock(){
+    clock_start_millis = millis();
+    last_display_seconds = presenter_time_limit_s;
+    draw_time = true;
+    drawTimeFromSeconds(last_display_seconds);
+}
+
+void handlePlayPauzePressed(){
+}
+
+void handleInputs(){
+    // Reverse press logic since pins are pull-up
+    play_pauze_pressed = !digitalRead(P_PLAYPAUZE);
+    reset_pressed = !digitalRead(P_RESET);
+    if (play_pauze_pressed && !play_pauze_pressed_prev){
+        handlePlayPauzePressed();
     }
-    
-    delay(1000);
+    if (reset_pressed && !reset_pressed_prev){
+        resetClock();
+    }
+    play_pauze_pressed_prev = play_pauze_pressed;
+    reset_pressed_prev = reset_pressed;
+}
+
+
+
+void handle_running(){
+    unsigned int s_timer_on = ((millis() - clock_start_millis) * speed_mult) / 1000;
+    int time_to_display = presenter_time_limit_s - s_timer_on;
+    if (time_to_display != last_display_seconds){
+        last_display_seconds = time_to_display;
+        drawTimeFromSeconds(last_display_seconds);
+    }
+}
+
+void handle_pauze(){
+
+}
+
+
+void loop()
+{
+    handleInputs();   
+    switch(clock_state){
+        case PAUZE:
+            handle_pauze();
+            break;
+        case RUNNING:
+            handle_running();
+            break;
+    }
+}
+
+void setup()
+{
+    pinMode(P_PLAYPAUZE, INPUT);
+    pinMode(P_RESET, INPUT);
+    Serial.begin(9600);
+    display.begin(scan_lines);
+    display.clearDisplay();
+    display_ticker.attach(0.002, display_updater);
+    yield();
+    delay(500);
+    resetClock();
 }
