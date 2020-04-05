@@ -73,9 +73,9 @@ void writeMinutesSeconds(int time_m, int time_s, uint16_t color)
     display.setTextColor(color);
     display.setFont(&FreeSansBold12pt7b);
 
-    time_writer.printDoubleDigitNumberAt(display, time_m, 2, 25);
+    time_writer.printDoubleDigitNumberAt(time_m, 2, 25);
     drawAndUpdateColonAt(29, 23);
-    time_writer.printDoubleDigitNumberAt(display, time_s, 35, 25);
+    time_writer.printDoubleDigitNumberAt(time_s, 35, 25);
 }
 
 void drawTimeFromSeconds(int input_seconds){
@@ -173,5 +173,6 @@ void setup()
     display_ticker.attach(0.002, display_updater);
     yield();
     delay(500);
+    time_writer.setDisplay(&display);
     resetClock();
 }

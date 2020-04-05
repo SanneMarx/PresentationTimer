@@ -7,10 +7,11 @@ class TimeWriter
 {
 public:
     TimeWriter();
-    void setDisplayRefence();
-    void printDoubleDigitNumberAt(PxMATRIX& display, int num, int x, int y);
+    void setDisplay(PxMATRIX* display);
+    void printDoubleDigitNumberAt(int num, int x, int y);
 
 private:
+    PxMATRIX* display;
 };
 
 #endif
