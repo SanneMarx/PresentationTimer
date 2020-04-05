@@ -20,11 +20,11 @@ Ticker display_ticker;
 PxMATRIX display(64, 32, P_LAT, P_OE, P_A, P_B, P_C, P_D);
 TimeWriter time_writer = TimeWriter();
 
-const int on_time = 20; // determines brightness, between 10-100
+const int on_time = 5; // determines brightness, between 10-100
 const int scan_lines = 16;
 
 enum CLOCK_STATE {RUNNING, PAUZE};
-CLOCK_STATE clock_state = RUNNING;
+CLOCK_STATE clock_state = PAUZE;
 
 bool play_pauze_pressed = false;
 bool play_pauze_pressed_prev = false;
@@ -105,6 +105,18 @@ void resetClock(){
 }
 
 void handlePlayPauzePressed(){
+    switch(clock_state){
+        case RUNNING:
+            clock_state = PAUZE;
+            break;
+        case PAUZE:
+            // Change the start millis so that when the clock continues running, it has the same time as when it last updated (-750ms so it feels responsive)
+            clock_start_millis = millis() - (presenter_time_limit_s - last_display_seconds) * 1000 - 750;
+            clock_state = RUNNING;
+            break;
+        default:
+            break;
+    }
 }
 
 void handleInputs(){
@@ -148,6 +160,7 @@ void loop()
             handle_running();
             break;
     }
+    delay(1); // delaying helps with less twitchy inputs
 }
 
 void setup()
