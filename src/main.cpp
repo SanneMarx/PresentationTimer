@@ -45,7 +45,7 @@ void handleInputs(){
     if (play_pauze_pressed && reset_pressed && (!play_pauze_pressed_prev || !reset_pressed_prev)) {
         mode = EYES;
         display.clearDisplay();
-        eyes.drawHeartEyes();
+        eyes.startEyesAnimation();
     } else {
         if (play_pauze_pressed && !play_pauze_pressed_prev){
             mode = TIMER;

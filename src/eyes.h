@@ -12,10 +12,12 @@ public:
     Eyes(PxMATRIX* display_pointer);
     void update();
     void startEyesAnimation();
-    void drawHeartEyes();
 private:
     // User preference data
     const unsigned long color_transition_millis = 10000;
+
+    void drawCircleEyes();
+    void drawHeartEyes();
 
     // Class data
     PxMATRIX* display;

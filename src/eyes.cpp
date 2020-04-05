@@ -12,6 +12,7 @@ Eyes::Eyes(PxMATRIX* display_pointer):display(display_pointer){
 
 void Eyes::startEyesAnimation(){
     eyes_start_millis = millis();
+    drawCircleEyes();
 }
 
 void Eyes::update(){
@@ -31,7 +32,19 @@ void Eyes::update(){
         transition_ratio = 0.0;
     }
     interpColors(next_color, last_color, transition_ratio, interped_color);
-    drawHeartEyes();
+    drawCircleEyes();
+}
+
+void Eyes::drawCircleEyes(){
+    for (int yy=0; yy<19;yy++){
+        for (int xx=0; xx<19;xx++){
+            // draw on 2 places at once
+            if (circle_19px[xx + yy*19]){
+                display->drawPixel(xx+8,yy+8, toColor565(interped_color));
+                display->drawPixel(xx+37,yy+8, toColor565(interped_color));
+            }
+        }
+    }
 }
 
 void Eyes::drawHeartEyes()
