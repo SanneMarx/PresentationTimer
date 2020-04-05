@@ -38,15 +38,9 @@ void Eyes::drawHeartEyes()
 {
     for (int yy=0; yy<23;yy++){
         for (int xx=0; xx<25;xx++){
+            // draw on 2 places at once
             if (heart_icon25w23h[xx + yy*25]){
                 display->drawPixel(xx+5,yy+5, toColor565(interped_color));
-            }
-        }
-    }
-
-    for (int yy=0; yy<23;yy++){
-        for (int xx=0; xx<25;xx++){
-            if (heart_icon25w23h[xx + yy*25]){
                 display->drawPixel(xx+34,yy+5, toColor565(interped_color));
             }
         }
