@@ -1,6 +1,7 @@
 #include <Ticker.h>
 #include <PxMatrix.h>
 
+#include "interactableScreen.h"
 #include "timer.h"
 #include "eyes.h"
 
@@ -22,6 +23,7 @@ PxMATRIX display(64, 32, P_LAT, P_OE, P_A, P_B, P_C, P_D);
 Timer timer = Timer(&display);
 Eyes eyes = Eyes(&display);
 MODE mode = TIMER;
+InteractableScreen* active_screen = &timer;
 
 const int on_time = 5; // determines brightness, between 0-100
 const int scan_lines = 16;
@@ -37,23 +39,25 @@ void display_updater()
     display.display(on_time);
 }
 
+void switchDisplayMode(){
+    mode = (mode == EYES) ? TIMER : EYES;
+    active_screen = (mode == EYES) ? (InteractableScreen*)&eyes : (InteractableScreen*)&timer;
+    display.clearDisplay();
+    active_screen->handleBecameActive();
+}
+
 void handleInputs(){
     // Reverse press logic since pins are pull-up
     play_pauze_pressed = !digitalRead(P_PLAYPAUZE);
     reset_pressed = !digitalRead(P_RESET);
-    // Switch to EYES mode when both buttons are pressed (and at least one of them wasn't present 1 tick before)
     if (play_pauze_pressed && reset_pressed && (!play_pauze_pressed_prev || !reset_pressed_prev)) {
-        mode = EYES;
-        display.clearDisplay();
-        eyes.startEyesAnimation();
+        switchDisplayMode();
     } else {
         if (play_pauze_pressed && !play_pauze_pressed_prev){
-            mode = TIMER;
-            timer.handlePlayPauzePressed();
+            active_screen->handlePlayPauze();
         }
         if (reset_pressed && !reset_pressed_prev){
-            mode = TIMER;
-            timer.resetClock();
+            active_screen->handleReset();
         }
     }
     play_pauze_pressed_prev = play_pauze_pressed;
@@ -64,16 +68,7 @@ void handleInputs(){
 void loop()
 {
     handleInputs();
-    switch (mode)
-    {
-    case EYES:
-        eyes.update();
-        break;
-    case TIMER:
-        timer.update();   
-    default:
-        break;
-    }
+    active_screen->update();
     delay(1); // delaying helps with less twitchy inputs
 }
 
@@ -87,5 +82,5 @@ void setup()
     display_ticker.attach(0.002, display_updater);
     yield();
     delay(500);
-    timer.resetClock();
+    timer.handleReset();
 }

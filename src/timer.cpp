@@ -1,6 +1,6 @@
 #include "timer.h"
 
-Timer::Timer(PxMATRIX* display_pointer):display(display_pointer){
+Timer::Timer(PxMATRIX* display_pointer): InteractableScreen(display_pointer){
 } 
 
 void Timer::printDoubleDigitNumberAt(int num, int x, int y)
@@ -84,14 +84,14 @@ void Timer::running_update(){
     }
 }
 
-void Timer::resetClock(){
+void Timer::handleReset(){
     clock_start_millis = millis();
     last_display_seconds = presenter_time_limit_s;
     draw_time = true;
     drawTimeFromSeconds(last_display_seconds);
 }
 
-void Timer::handlePlayPauzePressed(){
+void Timer::handlePlayPauze(){
     switch(clock_state){
         case RUNNING:
             clock_state = PAUZE;
@@ -104,4 +104,8 @@ void Timer::handlePlayPauzePressed(){
         default:
             break;
     }
+}
+
+void Timer::handleBecameActive(){
+    handleReset();
 }

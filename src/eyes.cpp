@@ -1,7 +1,6 @@
 #include "eyes.h"
-#include "colors.h"
 
-Eyes::Eyes(PxMATRIX* display_pointer):display(display_pointer){
+Eyes::Eyes(PxMATRIX* display_pointer): InteractableScreen(display_pointer){
     for (unsigned int i=0; i <3; i++){
         last_color[i] = RED[i];
         interped_color[i] = RED[i];
@@ -10,9 +9,17 @@ Eyes::Eyes(PxMATRIX* display_pointer):display(display_pointer){
     eyes_start_millis = millis();
 }
 
-void Eyes::startEyesAnimation(){
+void Eyes::handleBecameActive(){
     eyes_start_millis = millis();
     drawCircleEyes();
+}
+
+void Eyes::handlePlayPauze(){
+
+}
+
+void Eyes::handleReset(){
+    
 }
 
 void Eyes::update(){

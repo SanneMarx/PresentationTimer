@@ -2,20 +2,21 @@
 #define _TIME_WRITER_H_
 
 #include <PxMatrix.h>
-#include "colors.h"
 #include <Fonts/FreeSansBold12pt7b.h>
-
+#include "interactableScreen.h"
+#include "colors.h"
 
 enum CLOCK_STATE {RUNNING, PAUZE};
 
-class Timer
+class Timer: public InteractableScreen
 {
 public:
     Timer(PxMATRIX* display_pointer);
+
+    void handleBecameActive();
+    void handlePlayPauze();
+    void handleReset();
     void update();
-    void printDoubleDigitNumberAt(int num, int x, int y);
-    void resetClock();
-    void handlePlayPauzePressed();
 
 private:
     // User Preference:
@@ -24,7 +25,6 @@ private:
     const unsigned int speed_mult = 1; // 1 for normal speed, >1 for speeding up the countdown for testing
 
     // Class Data
-    PxMATRIX* display;
     CLOCK_STATE clock_state = PAUZE;
     bool draw_colon = true;
     bool draw_time = true;
@@ -35,6 +35,7 @@ private:
     void pauzed_update();
 
 
+    void printDoubleDigitNumberAt(int num, int x, int y);
     void drawAndUpdateColonAt(int x, int y);
     void secondsToMinutesAndSeconds(int total_seconds, int &minutes, int &seconds);
     void writeMinutesSeconds(int time_m, int time_s, uint16_t color);
