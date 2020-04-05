@@ -3,28 +3,21 @@
 
 #include <Arduino.h>
 
-inline uint16_t to_color565(uint8_t rgb[3]) {
-  return ((rgb[0] & 0xF8) << 8) | ((rgb[1] & 0xFC) << 3) | (rgb[2] >> 3);
-}
+uint16_t toColor565(const uint8_t rgb[3]);
 
-inline void interp_colors(const uint8_t color_1[3], const uint8_t color_2[3], float ratio, uint8_t result[3]){
-    for (uint rgb = 0; rgb < 3; rgb ++){
-        result[rgb] = color_1[rgb] * ratio + color_2[rgb] * (1.0f - ratio);
-    }
-}
+void interpColors(const uint8_t color_1[3], const uint8_t color_2[3], float ratio, uint8_t result[3]);
 
-const uint8_t RED[3] = {255, 0, 0};
-const uint8_t GREEN[3] = {0, 255, 0};
+void randomBaseColor(uint8_t result[3]);
 
-/**
-uint16_t RED = to_color565(255, 0, 0);
-uint16_t GREEN = to_color565(0, 255, 0);
-uint16_t BLUE = to_color565(0, 0, 255);
-uint16_t WHITE = to_color565(255, 255, 255);
-uint16_t YELLOW = to_color565(255, 255, 0);
-uint16_t CYAN = to_color565(0, 255, 255);
-uint16_t MAGENTA = to_color565(255, 0, 255);
-uint16_t BLACK = to_color565(0, 0, 0);
-**/
+void printColor(uint8_t color[3]);
+
+// Set minimum RGB value to 1 instead so they are always on. Turning on/off a subpixel looks very jarring
+const uint8_t RED[3] = {255, 1, 1};
+const uint8_t GREEN[3] = {1, 255, 1};
+const uint8_t BLUE[3] = {1, 1, 255};
+const uint8_t WHITE[3] = {255, 255, 255};
+const uint8_t YELLOW[3] = {255, 255, 1};
+const uint8_t CYAN[3] = {1, 255, 255};
+const uint8_t MAGENTA[3] = {255, 1, 255};
 
 #endif

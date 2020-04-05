@@ -50,9 +50,9 @@ void Timer::drawTimeFromSeconds(int input_seconds){
     int display_time = (input_seconds > 0) ? input_seconds : 0;
     secondsToMinutesAndSeconds(display_time, minutes, seconds);
     uint8_t interp_color[3];
-    interp_colors(GREEN, RED, float(display_time) / float(presenter_time_limit_s), interp_color);
+    interpColors(GREEN, RED, float(display_time) / float(presenter_time_limit_s), interp_color);
     if (draw_time) {
-        writeMinutesSeconds(minutes, seconds, to_color565(interp_color));
+        writeMinutesSeconds(minutes, seconds, toColor565(interp_color));
     }
     // Flash the time on/off when time ran out
     if (input_seconds <= 0) {
