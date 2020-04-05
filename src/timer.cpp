@@ -1,13 +1,13 @@
-#include "time_writer.h"
+#include "timer.h"
 
-TimeWriter::TimeWriter(){
+Timer::Timer(){
 } 
 
-void TimeWriter::setDisplay(PxMATRIX* display_pointer){
+void Timer::setDisplay(PxMATRIX* display_pointer){
     display = display_pointer;
 }
 
-void TimeWriter::printDoubleDigitNumberAt(int num, int x, int y)
+void Timer::printDoubleDigitNumberAt(int num, int x, int y)
 {
     // The used font has an offset for numbers in the range [10 - 19] of 1 pixel in x direction
     int x_offset = (20 > num && num >= 10) ? 1 : 0;

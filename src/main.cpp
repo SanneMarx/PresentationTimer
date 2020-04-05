@@ -3,7 +3,7 @@
 #include <Fonts/FreeSansBold12pt7b.h>
 
 #include "colors.h"
-#include "time_writer.h"
+#include "timer.h"
 
 Ticker display_ticker;
 
@@ -18,7 +18,7 @@ Ticker display_ticker;
 #define P_RESET 0
 
 PxMATRIX display(64, 32, P_LAT, P_OE, P_A, P_B, P_C, P_D);
-TimeWriter time_writer = TimeWriter();
+Timer timer = Timer();
 
 const int on_time = 5; // determines brightness, between 10-100
 const int scan_lines = 16;
@@ -73,9 +73,9 @@ void writeMinutesSeconds(int time_m, int time_s, uint16_t color)
     display.setTextColor(color);
     display.setFont(&FreeSansBold12pt7b);
 
-    time_writer.printDoubleDigitNumberAt(time_m, 2, 25);
+    timer.printDoubleDigitNumberAt(time_m, 2, 25);
     drawAndUpdateColonAt(29, 23);
-    time_writer.printDoubleDigitNumberAt(time_s, 35, 25);
+    timer.printDoubleDigitNumberAt(time_s, 35, 25);
 }
 
 void drawTimeFromSeconds(int input_seconds){
@@ -173,6 +173,6 @@ void setup()
     display_ticker.attach(0.002, display_updater);
     yield();
     delay(500);
-    time_writer.setDisplay(&display);
+    timer.setDisplay(&display);
     resetClock();
 }

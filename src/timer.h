@@ -3,10 +3,10 @@
 
 #include <PxMatrix.h>
 
-class TimeWriter
+class Timer
 {
 public:
-    TimeWriter();
+    Timer();
     void setDisplay(PxMATRIX* display);
     void printDoubleDigitNumberAt(int num, int x, int y);
 
