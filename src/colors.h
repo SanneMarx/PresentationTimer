@@ -6,6 +6,7 @@
 uint16_t toColor565(const uint8_t rgb[3]);
 
 void interpColors(const uint8_t color_1[3], const uint8_t color_2[3], float ratio, uint8_t result[3]);
+void interpColors(const uint16_t color_1, const uint16_t color_2, float ratio, uint16_t &result);
 
 void randomBaseColor(uint8_t result[3]);
 

@@ -10,6 +10,10 @@ void interpColors(const uint8_t color_1[3], const uint8_t color_2[3], float rati
     }
 }
 
+void interpColors(const uint16_t color_1, const uint16_t color_2, float ratio, uint16_t &result){
+    result = (uint16_t)((color_1 & 0xF800) * ratio + (color_2 & 0xF800) * (1.0-ratio)) & 0xF800 | (uint16_t)((color_1 & 0x7E0) * ratio + (color_2 & 0x7E0) * (1.0-ratio)) & 0x7E0 | (uint16_t)((color_1 & 0x1F) * ratio + (color_2 & 0x1F) * (1.0-ratio)) & 0x1F;
+}
+
 void randomBaseColor(uint8_t result[3]){
     int roll = random(0, 7);
     for (unsigned int i = 0; i<3; i++){
