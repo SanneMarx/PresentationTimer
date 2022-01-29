@@ -16,5 +16,6 @@ extern const Icon small_heart;
 extern const Icon large_heart;
 extern const Icon small_circle;
 extern const Icon large_circle;
+extern const Icon large_um_u;
 
 #endif

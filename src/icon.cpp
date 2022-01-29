@@ -11,3 +11,5 @@ const Icon large_heart = Icon(heart_icon25w23h, 25, 23);
 const Icon small_circle = Icon(circle_19px, 19, 19);
 
 const Icon large_circle = Icon(circle_25px, 25, 25);
+
+const Icon large_um_u = Icon(ultimaker_U_icon25w23h, 25, 23);

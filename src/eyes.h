@@ -7,13 +7,14 @@
 #include "colors.h"
 #include "interactableScreen.h"
 
-enum EYE_TYPE {CIRCLE, HEART};
 enum COLOR_TYPE {BREATHING, RAINBOW};
 
 class Eyes: public InteractableScreen
 {
 public:
     Eyes(PxMATRIX* display_pointer);
+
+    const Icon* get_new_eye_icon();
 
     virtual void handleBecameActive();
     virtual void handlePlayPauze();
@@ -22,10 +23,13 @@ public:
 private:
     int xy_margin = 3; //hidden pixels at top, left, right of display
     int max_eye_size = 32; // display is 64x32 so max icon size is 32x32
+
+    static const int NUM_EYES = 3;
+    const Icon* eye_icons[NUM_EYES] = {&small_circle, &large_heart, &large_um_u};
+    int active_eye = 0;
     
     unsigned long color_transition_millis = 10000;
     float transition_ratio = 0.0f;
-    EYE_TYPE eye_type = CIRCLE;
     COLOR_TYPE color_type = BREATHING;
     const Icon* eye_icon;
     void setNewTargetColor();

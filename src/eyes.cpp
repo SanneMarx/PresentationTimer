@@ -1,8 +1,7 @@
 #include "eyes.h"
 
 Eyes::Eyes(PxMATRIX* display_pointer): InteractableScreen(display_pointer){
-    eye_type = CIRCLE;
-    eye_icon = &small_circle;
+    eye_icon = get_new_eye_icon();
     for (unsigned int i=0; i <3; i++){
         last_color[i] = RED[i];
         interped_color[i] = RED[i];
@@ -10,6 +9,14 @@ Eyes::Eyes(PxMATRIX* display_pointer): InteractableScreen(display_pointer){
     randomBaseColor(next_color);
     randomBaseColor(next_next_color);
     eyes_start_millis = millis();
+}
+
+const Icon* Eyes::get_new_eye_icon(){
+    active_eye++;
+    if (active_eye >= NUM_EYES){
+        active_eye = 0;
+    } 
+    return eye_icons[active_eye];
 }
 
 void Eyes::handleBecameActive(){
@@ -24,8 +31,7 @@ void Eyes::handlePlayPauze(){
 
 void Eyes::handleReset(){
     display->clearDisplay();
-    eye_type = (eye_type == CIRCLE) ? HEART : CIRCLE;
-    eye_icon = (eye_type == CIRCLE) ? &large_heart : &small_circle;
+    eye_icon = get_new_eye_icon();
 }
 
 void Eyes::setNewTargetColor(){
