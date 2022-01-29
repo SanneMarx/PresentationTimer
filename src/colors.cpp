@@ -15,7 +15,7 @@ void interpColors(const uint16_t color_1, const uint16_t color_2, float ratio, u
 }
 
 void randomBaseColor(uint8_t result[3]){
-    int roll = random(0, 7);
+    int roll = random(0, 8);
     for (unsigned int i = 0; i<3; i++){
         switch (roll)
         {
@@ -25,13 +25,15 @@ void randomBaseColor(uint8_t result[3]){
             break;
         case 2: result[i] = BLUE[i];
             break;
-        case 3: result[i] = WHITE[i];
+        case 3: result[i] = ORANGE[i];
             break;
         case 4: result[i] = YELLOW[i];
             break;
         case 5: result[i] = MAGENTA[i];
             break;
         case 6: result[i] = CYAN[i];
+            break;
+        case 7: result[i] = PURPLE[i];
             break;
         default: result[i] = 0;
             break;

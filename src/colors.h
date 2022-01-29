@@ -20,5 +20,7 @@ const uint8_t WHITE[3] = {255, 255, 255};
 const uint8_t YELLOW[3] = {255, 255, 1};
 const uint8_t CYAN[3] = {1, 255, 255};
 const uint8_t MAGENTA[3] = {255, 1, 255};
+const uint8_t ORANGE[3] = {255, 128, 1};
+const uint8_t PURPLE[3] = {128, 1, 255};
 
 #endif
