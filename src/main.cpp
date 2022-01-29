@@ -22,8 +22,8 @@ enum MODE {TIMER, EYES};
 PxMATRIX display(64, 32, P_LAT, P_OE, P_A, P_B, P_C, P_D);
 Timer timer = Timer(&display);
 Eyes eyes = Eyes(&display);
-MODE mode = TIMER;
-InteractableScreen* active_screen = &timer;
+MODE mode = EYES;
+InteractableScreen* active_screen = &eyes;
 
 const int on_time = 5; // determines brightness, between 0-100
 const int scan_lines = 16;
@@ -82,5 +82,5 @@ void setup()
     display_ticker.attach(0.002, display_updater);
     yield();
     delay(500);
-    timer.handleReset();
+    active_screen->handleBecameActive();
 }
