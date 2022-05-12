@@ -4,6 +4,7 @@
 #include "interactableScreen.h"
 #include "timer.h"
 #include "eyes.h"
+#include "nyan_screen.h"
 
 Ticker display_ticker;
 
@@ -22,8 +23,9 @@ enum MODE {TIMER, EYES};
 PxMATRIX display(64, 32, P_LAT, P_OE, P_A, P_B, P_C, P_D);
 Timer timer = Timer(&display);
 Eyes eyes = Eyes(&display);
+NyanScreen nyan_screen = NyanScreen(&display);
 MODE mode = EYES;
-InteractableScreen* active_screen = &eyes;
+int active_screen = 0;
 
 const int on_time = 5; // determines brightness, between 0-100
 const int scan_lines = 16;
@@ -32,6 +34,8 @@ bool play_pauze_pressed = false;
 bool play_pauze_pressed_prev = false;
 bool reset_pressed = false;
 bool reset_pressed_prev = false;
+const int num_screens = 3;
+InteractableScreen* screens[num_screens] = {&eyes, &timer, &nyan_screen};
 
 // ISR for display refresh
 void display_updater()
@@ -40,10 +44,9 @@ void display_updater()
 }
 
 void switchDisplayMode(){
-    mode = (mode == EYES) ? TIMER : EYES;
-    active_screen = (mode == EYES) ? (InteractableScreen*)&eyes : (InteractableScreen*)&timer;
+    active_screen = (active_screen + 1 <= num_screens) ? active_screen + 1 : 0;
     display.clearDisplay();
-    active_screen->handleBecameActive();
+    screens[active_screen]->handleBecameActive();
 }
 
 void handleInputs(){
@@ -54,10 +57,10 @@ void handleInputs(){
         switchDisplayMode();
     } else {
         if (play_pauze_pressed && !play_pauze_pressed_prev){
-            active_screen->handlePlayPauze();
+            screens[active_screen]->handlePlayPauze();
         }
         if (reset_pressed && !reset_pressed_prev){
-            active_screen->handleReset();
+            screens[active_screen]->handleReset();
         }
     }
     play_pauze_pressed_prev = play_pauze_pressed;
@@ -68,7 +71,7 @@ void handleInputs(){
 void loop()
 {
     handleInputs();
-    active_screen->update();
+    screens[active_screen]->update();
     delay(1); // delaying helps with less twitchy inputs
 }
 
@@ -82,5 +85,5 @@ void setup()
     display_ticker.attach(0.002, display_updater);
     yield();
     delay(500);
-    active_screen->handleBecameActive();
+    screens[active_screen]->handleBecameActive();
 }

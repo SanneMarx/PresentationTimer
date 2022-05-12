@@ -25,7 +25,7 @@ private:
     int max_eye_size = 32; // display is 64x32 so max icon size is 32x32
 
     static const int NUM_EYES = 3;
-    const Icon* eye_icons[NUM_EYES] = {&small_circle, &large_heart, &large_um_u};
+    const Icon* eye_icons[NUM_EYES] = {&large_heart, &small_circle, &large_um_u};
     int active_eye = 0;
     
     unsigned long color_transition_millis = 10000;
