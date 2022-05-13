@@ -1,7 +1,6 @@
 #ifndef _EYES_H_
 #define _EYES_H_
 
-#include "PxMatrix.h"
 #include "icon.h"
 #include "colors.h"
 #include "interactableScreen.h"
@@ -11,7 +10,7 @@ enum COLOR_TYPE {BREATHING, RAINBOW};
 class Eyes: public InteractableScreen
 {
 public:
-    Eyes(PxMATRIX* display_pointer);
+    Eyes(Display* display_pointer);
 
     const Icon* get_new_eye_icon();
 

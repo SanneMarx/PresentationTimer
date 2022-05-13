@@ -1,6 +1,6 @@
 #include "interactableScreen.h"
 
-InteractableScreen::InteractableScreen(PxMATRIX* display_pointer):display(display_pointer){
+InteractableScreen::InteractableScreen(Display* display_pointer):display(display_pointer){
 }
 
 void InteractableScreen::handleBecameActive(){

@@ -1,8 +1,8 @@
 #ifndef _TIME_WRITER_H_
 #define _TIME_WRITER_H_
 
-#include <PxMatrix.h>
-#include <Fonts/FreeSansBold12pt7b.h>
+#include "displayInterface.h"
+#include <fonts.h>
 #include "interactableScreen.h"
 #include "colors.h"
 
@@ -11,7 +11,7 @@ enum CLOCK_STATE {RUNNING, PAUZE};
 class Timer: public InteractableScreen
 {
 public:
-    Timer(PxMATRIX* display_pointer);
+    Timer(Display* display_pointer);
 
     void handleBecameActive();
     void handlePlayPauze();

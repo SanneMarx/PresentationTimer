@@ -1,5 +1,5 @@
 #include <Ticker.h>
-#include <PxMatrix.h>
+#include "displayInterface.h"
 
 #include "interactableScreen.h"
 #include "timer.h"
@@ -20,7 +20,7 @@ Ticker display_ticker;
 
 enum MODE {TIMER, EYES};
 
-PxMATRIX display(64, 32, P_LAT, P_OE, P_A, P_B, P_C, P_D);
+Display display(64, 32, P_LAT, P_OE, P_A, P_B, P_C, P_D);
 Timer timer = Timer(&display);
 Eyes eyes = Eyes(&display);
 NyanScreen nyan_screen = NyanScreen(&display);

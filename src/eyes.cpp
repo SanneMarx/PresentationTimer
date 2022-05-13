@@ -1,6 +1,6 @@
 #include "eyes.h"
 
-Eyes::Eyes(PxMATRIX* display_pointer): InteractableScreen(display_pointer){
+Eyes::Eyes(Display* display_pointer): InteractableScreen(display_pointer){
     eye_icon = get_new_eye_icon();
     for (unsigned int i=0; i <3; i++){
         last_color[i] = RED[i];

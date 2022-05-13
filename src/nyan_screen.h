@@ -1,7 +1,7 @@
 #ifndef _NYAN_SCREEN_H_
 #define _NYAN_SCREEN_H_
 
-#include "PxMatrix.h"
+#include "displayInterface.h"
 #include "icon.h"
 #include "colors.h"
 #include "interactableScreen.h"
@@ -9,7 +9,7 @@
 
 class NyanScreen: public InteractableScreen{
 public:
-    NyanScreen(PxMATRIX* display_pointer);
+    NyanScreen(Display* display_pointer);
     virtual void handleBecameActive();
     virtual void handlePlayPauze();
     virtual void handleReset();

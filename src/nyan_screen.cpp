@@ -1,6 +1,6 @@
 #include "nyan_screen.h"
 
-NyanScreen::NyanScreen(PxMATRIX* display_pointer): InteractableScreen(display_pointer){
+NyanScreen::NyanScreen(Display* display_pointer): InteractableScreen(display_pointer){
 }
 
 

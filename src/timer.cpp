@@ -1,6 +1,6 @@
 #include "timer.h"
 
-Timer::Timer(PxMATRIX* display_pointer): InteractableScreen(display_pointer){
+Timer::Timer(Display* display_pointer): InteractableScreen(display_pointer){
 } 
 
 void Timer::printDoubleDigitNumberAt(int num, int x, int y)
