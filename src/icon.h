@@ -1,7 +1,6 @@
 #ifndef _ICONS_H_
 #define _ICONS_H_
 
-#include "Arduino.h"
 #include "icon_maps.h"
 
 struct Icon {
@@ -17,5 +16,6 @@ extern const Icon large_heart;
 extern const Icon small_circle;
 extern const Icon large_circle;
 extern const Icon large_um_u;
+extern const Icon large_makerbot_m;
 
 #endif

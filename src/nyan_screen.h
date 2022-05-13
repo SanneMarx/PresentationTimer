@@ -1,7 +1,6 @@
 #ifndef _NYAN_SCREEN_H_
 #define _NYAN_SCREEN_H_
 
-#include "Arduino.h"
 #include "PxMatrix.h"
 #include "icon.h"
 #include "colors.h"

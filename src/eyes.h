@@ -1,7 +1,6 @@
 #ifndef _EYES_H_
 #define _EYES_H_
 
-#include "Arduino.h"
 #include "PxMatrix.h"
 #include "icon.h"
 #include "colors.h"
@@ -24,8 +23,8 @@ private:
     int xy_margin = 3; //hidden pixels at top, left, right of display
     int max_eye_size = 32; // display is 64x32 so max icon size is 32x32
 
-    static const int NUM_EYES = 3;
-    const Icon* eye_icons[NUM_EYES] = {&large_heart, &small_circle, &large_um_u};
+    static const int NUM_EYES = 4;
+    const Icon* eye_icons[NUM_EYES] = {&large_heart, &small_circle, &large_um_u, &large_makerbot_m};
     int active_eye = 0;
     
     unsigned long color_transition_millis = 10000;
