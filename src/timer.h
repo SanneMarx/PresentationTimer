@@ -1,6 +1,7 @@
 #ifndef _TIME_WRITER_H_
 #define _TIME_WRITER_H_
 
+#include "timerInterface.h"
 #include "displayInterface.h"
 #include <fonts.h>
 #include "interactableScreen.h"

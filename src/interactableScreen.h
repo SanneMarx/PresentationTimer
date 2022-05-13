@@ -1,6 +1,7 @@
 #ifndef _INTERACTABLE_SCREEN_H_
 #define _INTERACTABLE_SCREEN_H_
 
+#include "timerInterface.h"
 #include "displayInterface.h"
 
 class InteractableScreen{

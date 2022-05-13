@@ -7,7 +7,10 @@
         using PxMATRIX::PxMATRIX;
     };
 #else
-    
+    #include "x86Display.h"
+    class Display: public X86Display{
+
+    };
 #endif
 
 #endif
